@@ -216,3 +216,43 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Environnement virtuel Python
+.venv/
+
+# Fichiers Python temporaires
+__pycache__/
+*.py[cod]
+
+# Fichiers temporaires Jupyter
+.ipynb_checkpoints/
+
+# Variables d'environnement et secrets
+.env
+kaggle.json
+
+# Données locales
+data/raw/*
+data/interim/*
+data/processed/*
+
+# Conserver la structure des dossiers
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+
+# Données brutes non publiées sur GitHub
+data/raw/*
+!data/raw/.gitkeep
+
+# Données intermédiaires
+data/interim/*
+!data/interim/.gitkeep
+
+# Données traitées au niveau individuel
+data/processed/*
+!data/processed/.gitkeep
+
+# Identifiants et secrets Kaggle
+kaggle.json
+.env
