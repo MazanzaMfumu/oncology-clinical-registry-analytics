@@ -71,3 +71,19 @@ No row will be silently deleted.
 The project verifies technical formats and internal consistency.
 It does not reproduce an official medical validation of TNM
 classification, cancer staging or hospital registry submission.
+
+## 7. Potential duplicate records
+
+Two records, CASE_01010 and CASE_01011, contain identical values
+across all available source variables.
+
+Because the public dataset does not contain a stable original
+patient identifier, these records cannot be conclusively classified
+as duplicate patients.
+
+They are therefore treated as potential duplicates:
+
+- the original records are preserved;
+- both records remain flagged with a warning;
+- no raw record is manually modified or deleted;
+- a sensitivity analysis will later retain only one of the two identical profiles.
