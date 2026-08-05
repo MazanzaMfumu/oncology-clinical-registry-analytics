@@ -1,0 +1,25 @@
+setting,value
+script_version,2026-08-05-commit-candidate-v1
+run_timestamp_utc,2026-08-05T11:52:41.109599+00:00
+script_file,src/analysis/survival_extensions.py
+script_sha256,f3475b0b1c2e05e0fde58883ce7e212cbeff2f8fae8201e74662feb93b6df10b
+data_file,data/processed/oncology_registry_validated.csv
+data_sha256,6cf000efd924cc0e425461f00c023d9c817a81f441275538d8b629adb55de928
+quality_filter,quality_status == 'valid'
+duration_column,survival_months
+event_column,event
+stage_column,overall_stage
+selected_times_months,"[0, 12, 24, 36, 60, 84]"
+at_risk_count_convention,end_of_period
+primary_numeric_covariates,"[""age""]"
+primary_categorical_covariates,"[""overall_stage"", ""grade""]"
+explicit_reference_categories,"{""grade"": ""Moderately differentiated; Grade II"", ""overall_stage"": ""IIA""}"
+sensitivity_strata,"[""estrogen_status"", ""progesterone_status""]"
+cox_penalizer,0.0
+core_survival_n,4022
+primary_cox_n,4022
+stratified_cox_n,4022
+python_version,3.14.6
+pandas_version,2.3.3
+lifelines_version,0.30.3
+statsmodels_version,0.14.6

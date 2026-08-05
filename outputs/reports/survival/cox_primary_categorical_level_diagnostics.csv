@@ -1,0 +1,10 @@
+variable,level,role,is_reference,n_total,n_events,n_censored,event_percent,sparse_n_warning,sparse_event_warning
+overall_stage,IIA,covariate,True,1303,96,1207,7.367613200306984,False,False
+overall_stage,IIB,covariate,False,1130,135,995,11.946902654867257,False,False
+overall_stage,IIIA,covariate,False,1050,184,866,17.523809523809526,False,False
+overall_stage,IIIB,covariate,False,67,20,47,29.850746268656717,False,False
+overall_stage,IIIC,covariate,False,472,181,291,38.347457627118644,False,False
+grade,Moderately differentiated; Grade II,covariate,True,2349,305,2044,12.984248616432524,False,False
+grade,Poorly differentiated; Grade III,covariate,False,1111,263,848,23.672367236723673,False,False
+grade,Undifferentiated; anaplastic; Grade IV,covariate,False,19,9,10,47.36842105263158,True,False
+grade,Well differentiated; Grade I,covariate,False,543,39,504,7.18232044198895,False,False

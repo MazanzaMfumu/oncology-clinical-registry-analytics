@@ -1,0 +1,8 @@
+metric,value
+concordance_index,0.7011204698047027
+log_likelihood,-4755.04370042061
+partial_AIC,9526.08740084122
+n_observations,4022
+n_events,616
+strata,[]
+convergence_warning_count,0

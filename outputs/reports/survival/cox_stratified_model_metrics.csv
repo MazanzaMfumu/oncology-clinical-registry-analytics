@@ -1,0 +1,8 @@
+metric,value
+concordance_index,0.6913101717524033
+log_likelihood,-4156.391251232095
+partial_AIC,8328.78250246419
+n_observations,4022
+n_events,616
+strata,"[""estrogen_status"", ""progesterone_status""]"
+convergence_warning_count,0

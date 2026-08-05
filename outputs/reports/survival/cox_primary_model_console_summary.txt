@@ -1,0 +1,37 @@
+<lifelines.CoxPHFitter: fitted with 4022 total observations, 3406 right-censored observations>
+             duration col = 'survival_months'
+                event col = 'event'
+      baseline estimation = breslow
+   number of observations = 4022
+number of events observed = 616
+   partial log-likelihood = -4755.0437
+         time fit was run = 2026-08-05 11:51:35 UTC
+
+---
+                                                coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%
+covariate                                                                                                                                       
+age                                           0.0205    1.0207    0.0046          0.0114          0.0296              1.0115              1.0300
+overall_stage_IIB                             0.4810    1.6177    0.1339          0.2185          0.7436              1.2442              2.1034
+overall_stage_IIIA                            0.8613    2.3663    0.1267          0.6131          1.1096              1.8461              3.0331
+overall_stage_IIIB                            1.4116    4.1024    0.2463          0.9288          1.8943              2.5316              6.6480
+overall_stage_IIIC                            1.6842    5.3883    0.1282          1.4330          1.9354              4.1915              6.9269
+grade_Poorly differentiated; Grade III        0.5332    1.7045    0.0854          0.3659          0.7006              1.4418              2.0150
+grade_Undifferentiated; anaplastic; Grade IV  1.3657    3.9185    0.3394          0.7005          2.0309              2.0147              7.6213
+grade_Well differentiated; Grade I           -0.4748    0.6220    0.1706         -0.8092         -0.1404              0.4452              0.8690
+
+                                              cmp to       z      p  -log2(p)
+covariate                                                                    
+age                                           0.0000  4.4226 <5e-05   16.6456
+overall_stage_IIB                             0.0000  3.5911 0.0003   11.5686
+overall_stage_IIIA                            0.0000  6.8001 <5e-05   36.4768
+overall_stage_IIIB                            0.0000  5.7311 <5e-05   26.5787
+overall_stage_IIIC                            0.0000 13.1420 <5e-05  128.6352
+grade_Poorly differentiated; Grade III        0.0000  6.2443 <5e-05   31.1298
+grade_Undifferentiated; anaplastic; Grade IV  0.0000  4.0238 0.0001   14.0921
+grade_Well differentiated; Grade I            0.0000 -2.7829 0.0054    7.5362
+---
+Concordance = 0.7011
+Partial AIC = 9526.0874
+log-likelihood ratio test = 327.3924 on 8 df
+-log2(p) of ll-ratio test = 216.6575
+

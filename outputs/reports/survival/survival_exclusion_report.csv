@@ -1,0 +1,8 @@
+criterion,n_records,scope
+nonvalid_or_missing_quality_status,2,source records
+missing_duration,0,quality-valid records
+negative_duration,0,quality-valid records
+missing_event,0,quality-valid records
+invalid_event,0,quality-valid records
+missing_stage,0,quality-valid records
+exclude_from_core_survival,0,quality-valid records

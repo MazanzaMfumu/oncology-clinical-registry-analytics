@@ -1,0 +1,8 @@
+step,n_records
+source_records,4024
+quality_valid_records,4022
+excluded_nonvalid_or_missing_quality_status,2
+excluded_for_core_survival_fields,0
+final_core_survival_records,4022
+observed_deaths,616
+right_censored,3406

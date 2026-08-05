@@ -1,0 +1,5 @@
+estrogen_status,progesterone_status,n_total,n_events,n_censored,event_percent,sparse_n_warning,sparse_event_warning,zero_event_blocker
+Negative,Negative,242,102,140,42.14876033057851,False,False,False
+Negative,Positive,27,6,21,22.22222222222222,False,False,False
+Positive,Negative,456,102,354,22.36842105263158,False,False,False
+Positive,Positive,3297,406,2891,12.314225053078557,False,False,False

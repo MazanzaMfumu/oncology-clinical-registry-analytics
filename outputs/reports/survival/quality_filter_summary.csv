@@ -1,0 +1,5 @@
+metric,value
+source_records,4024
+quality_valid_records,4022
+excluded_nonvalid_or_missing_quality_status,2
+quality_filter,quality_status == 'valid'

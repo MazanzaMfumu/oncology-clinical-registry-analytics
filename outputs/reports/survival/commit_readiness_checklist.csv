@@ -1,0 +1,13 @@
+condition,status,evidence
+explicit_quality_filter,PASS,quality_filter_summary.csv
+manifest_has_no_local_absolute_path,PASS,data/processed/oncology_registry_validated.csv
+explicit_IIA_and_Grade_II_references,PASS,"{""grade"": ""Moderately differentiated; Grade II"", ""overall_stage"": ""IIA""}"
+counts_and_events_by_modality_available,PASS,Cox level and combined-strata diagnostics
+primary_model_convergence,PASS,cox_primary_fit_warnings.csv
+stratified_model_convergence,PASS,cox_stratified_fit_warnings.csv
+primary_model_PH_after_Holm,PASS,cox_primary_proportional_hazards_test.csv
+stratified_model_PH_after_Holm,PASS,cox_stratified_proportional_hazards_test.csv
+check_assumptions_reports_generated,PASS,primary and stratified text reports
+Schoenfeld_graphs_visually_examined,MANUAL_REVIEW_REQUIRED,Review all files listed in cox_*_schoenfeld_figure_index.csv
+Kaplan_Meier_and_risk_tables_visually_examined,MANUAL_REVIEW_REQUIRED,Review both Kaplan–Meier PNG files and at_risk_counts_selected_times.csv
+automated_commit_gate,PASS,Manual visual reviews remain mandatory.

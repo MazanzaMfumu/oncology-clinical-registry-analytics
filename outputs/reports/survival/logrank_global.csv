@@ -1,0 +1,2 @@
+test,number_of_groups,test_statistic,p,-log2(p)
+global_multivariate_logrank,5,309.7621357346716,8.487899842018682e-66,216.161846630144

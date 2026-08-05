@@ -1,0 +1,9 @@
+metric,value
+core_survival_records,4022
+cox_complete_cases,4022
+cox_records_excluded_for_missingness,0
+cox_observed_events,616
+cox_estimated_parameters,8
+events_per_estimated_parameter_descriptive,77.0
+events_per_parameter_warning_below,10.0
+events_per_parameter_warning,False
