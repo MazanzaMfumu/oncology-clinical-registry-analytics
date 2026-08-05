@@ -339,9 +339,7 @@ The reporting component is intended to demonstrate:
 
 ## 12. Automated tests
 
-## Automated tests
-
-**Status: implemented locally — GitHub Actions integration planned**
+**Status: implemented and passing locally and on GitHub Actions**
 
 Automated tests verify that the main data-preparation and validation
 rules continue to behave as expected after code modifications.
@@ -359,13 +357,13 @@ Tests are written with `pytest` and stored in:
 ```text
 tests/test_data_quality.py
 ```
+## 13. Running the project
 
-## Running the project
 
-## Main results
+## 14. Main results
 
-## Methodological limitations
+## 15. Methodological limitations
 
-## Privacy and ethical considerations
+## 16. Privacy and ethical considerations
 
-## Author
+## 17. Author
