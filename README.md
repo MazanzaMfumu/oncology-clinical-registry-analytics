@@ -339,24 +339,26 @@ The reporting component is intended to demonstrate:
 
 ## 12. Automated tests
 
-**Status: planned**
+## Automated tests
 
-Automated tests will verify that the main preparation and validation
+**Status: implemented locally — GitHub Actions integration planned**
+
+Automated tests verify that the main data-preparation and validation
 rules continue to behave as expected after code modifications.
 
-The tests will cover examples such as:
+The current test suite covers:
 
 - conversion of column names to `snake_case`;
+- acceptance of a technically valid sample record;
 - detection of negative survival durations;
 - detection of positive regional nodes exceeding examined nodes;
-- consistency between vital status and event coding;
-- acceptance of a technically valid sample record.
+- consistency between vital status and event coding.
 
-Tests will be written with `pytest` and stored in the `tests`
-directory.
+Tests are written with `pytest` and stored in:
 
-After local validation, GitHub Actions will execute the tests
-automatically after each push to the `main` branch.
+```text
+tests/test_data_quality.py
+```
 
 ## Running the project
 
