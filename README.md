@@ -254,37 +254,90 @@ appropriately aggregated and non-identifying information.
 
 ![Dashboard quality and receptor indicators](docs/screenshots/dashboard_full_page2.png)
 
-## 11. Excel reporting
+## 11. Automated reporting
 
-## Excel reporting
+**Status: implemented**
 
-**Status: planned**
+The project generates reproducible reporting outputs automatically with
+Python. These outputs include a formatted multi-worksheet Excel workbook,
+supporting CSV files and text-based analytical diagnostics.
 
-The project will generate an Excel workbook automatically with
-Python.
+### Excel workbook
 
-The workbook will contain aggregated information only and may include
-the following worksheets:
+The project generates an aggregated Excel workbook from the validated
+dataset and the data-quality issue log.
+
+The workbook is available at:
+
+`outputs/reports/oncology_registry_report.xlsx`
+
+It currently contains the following worksheets:
 
 | Worksheet | Content |
 |---|---|
-| `Overview` | Main dataset and quality indicators |
-| `Quality_By_Rule` | Number of issues by rule and severity |
-| `Missing_Data` | Missing values by variable |
-| `Stage_KPIs` | Number of cases by recorded stage |
-| `Vital_Status` | Vital status by recorded stage |
-| `Instructions` | Data source, limitations and usage notes |
+| `Instructions` | Data sources, generation details, definitions, confidentiality notes and interpretation limits |
+| `Overview` | Main registry, event and quality indicators |
+| `Data_Quality_Summary` | Number and percentage of cases by quality status |
+| `Quality_By_Rule` | Aggregated issues by validation rule and severity |
+| `Missing_Data` | Number and percentage of missing values by variable |
+| `Stage_KPIs` | Aggregated case, event and follow-up indicators by recorded stage |
+| `Vital_Status` | Vital-status distribution by recorded stage |
+| `Survival_Summary` | Aggregated follow-up, death and censoring indicators |
 
-The report will be generated from the validated data rather than
-constructed manually in Excel.
+The Excel report can be regenerated from the project root with:
 
-This component is intended to demonstrate both Python automation and
-the production of an output that can be used by non-technical
-stakeholders.
+```bash
+python src/generate_excel_report.py
+```
 
-## Automated tests
+The workbook is generated programmatically and is not constructed
+manually in Excel.
 
-## Automated tests
+### Supporting CSV and text outputs
+
+The project also generates machine-readable CSV files and text-based
+diagnostics during data preparation, validation and survival analysis.
+
+The main output locations are:
+
+```text
+data/interim/
+data/processed/
+outputs/reports/survival/
+```
+
+These supporting outputs include:
+
+- the prepared dataset;
+- the data-quality issue log;
+- the validated dataset;
+- case-identifier validation results;
+- survival-analysis sample-flow summaries;
+- at-risk counts at selected follow-up times;
+- Cox model summaries and performance metrics;
+- missing-data diagnostics;
+- proportional-hazards diagnostics;
+- model warnings and readiness checks.
+
+The CSV and text outputs support traceability, reproducibility and
+technical review, while the Excel workbook provides a consolidated
+stakeholder-facing report.
+
+### Confidentiality and intended use
+
+The stakeholder-facing Excel workbook contains aggregated information
+only. It does not expose the original raw dataset, individual case
+records or direct identifiers.
+
+The reporting component is intended to demonstrate:
+
+- Python-based reporting automation;
+- data-quality monitoring;
+- reproducible production of analytical outputs;
+- traceability between validated data and final deliverables;
+- communication of results to technical and non-technical stakeholders.
+
+## 12. Automated tests
 
 **Status: planned**
 
