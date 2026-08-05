@@ -163,24 +163,24 @@ Complete rules are documented in
 
 ## 8. Relational database and SQL indicators
 
-**Status: planned**
+**Status: implemented**
 
-The validated analytical dataset will be loaded into a local SQLite
+The validated analytical dataset is loaded into a local SQLite
 database.
 
-The planned relational model will separate the main analytical
-domains into tables such as:
+The relational model separates the main analytical domains into four
+tables:
 
 - `patients`;
 - `tumors`;
 - `outcomes`;
 - `data_quality_issues`.
 
-The tables will be connected through a technical `case_id`. This
+The tables are connected through a technical `case_id`. This
 identifier is created for the portfolio workflow and is not a real
 medical or hospital patient identifier.
 
-Planned SQL indicators include:
+Implemented SQL indicators include:
 
 - total number of registered cases;
 - distribution of cases by recorded stage;
@@ -189,92 +189,16 @@ Planned SQL indicators include:
 - number of records by quality status;
 - number of quality issues by rule and severity.
 
-The SQL schema and analytical queries will be stored in the `sql`
-directory.
+Project files:
 
-## 9. Clinical and survival analyses
+- [`sql/schema.sql`](sql/schema.sql)
+- [`sql/analysis_queries.sql`](sql/analysis_queries.sql)
+- [`src/build_database.py`](src/build_database.py)
+- [`src/check_database.py`](src/check_database.py)
 
-**Status: implemented and quality-checked**
-
-The clinical and survival analysis component uses the validated
-processed dataset:
-
-`data/processed/oncology_registry_validated.csv`
-
-Records are explicitly filtered to retain only observations with:
-
-`quality_status == "valid"`
-
-The latest validated run included **4,022 patient records**, with:
-
-- **616 observed deaths**;
-- **3,406 right-censored observations**;
-- **2 records excluded** because their quality status was not valid.
-
-The descriptive analysis covers:
-
-- age;
-- tumour size;
-- regional nodes examined;
-- regional nodes positive;
-- recorded cancer stage;
-- tumour grade;
-- hormone-receptor status;
-- survival duration;
-- vital status.
-
-Survival outcomes are analysed using the Kaplan–Meier method.
-The implemented analyses include:
-
-- an overall Kaplan–Meier survival curve;
-- Kaplan–Meier curves stratified by recorded stage;
-- confidence intervals and explicit censoring markers;
-- numbers-at-risk tables at selected follow-up times;
-- a global log-rank test across recorded stages;
-- pairwise log-rank comparisons with Holm adjustment for multiple testing.
-
-A primary multivariable Cox proportional-hazards model was fitted
-using:
-
-- age;
-- recorded overall stage;
-- tumour grade.
-
-The explicit reference categories are:
-
-- `IIA` for `overall_stage`;
-- `Moderately differentiated; Grade II` for `grade`.
-
-Because the proportional-hazards assumption was not supported for
-the oestrogen- and progesterone-receptor variables when they were
-initially included as ordinary Cox covariates, a sensitivity model
-was also fitted using the same primary covariates while stratifying
-the baseline hazard by:
-
-- `estrogen_status`;
-- `progesterone_status`.
-
-Both the primary and stratified Cox models converged without recorded
-convergence warnings. Statistical tests and graphical Schoenfeld
-residual diagnostics did not identify unresolved proportional-hazards
-violations in the final models.
-
-The stage-specific results showed progressively higher adjusted
-hazards from stage IIB through stage IIIC relative to stage IIA.
-However, estimates for relatively small groups, particularly stage
-IIIB and Grade IV, are interpreted cautiously because of their wider
-confidence intervals.
-
-The project does not use `survival_months` as an ordinary predictor
-of vital status, because this would introduce target leakage.
-
-All findings are interpreted as descriptive or associational. They
-are not presented as causal effects, individual medical predictions,
-or clinical decision-support recommendations.
-
-Generated survival-analysis outputs are stored in:
-- `outputs/figures/survival`;
-- `outputs/reports/survival`.
+The generated SQLite database is stored locally in
+`data/processed/oncology_registry.sqlite` and is not distributed
+through GitHub.
 
 ## 10. Streamlit dashboard
 
