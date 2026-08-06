@@ -491,8 +491,6 @@ tests/test_data_quality.py
 ```
 ## 13. Running the project
 
-## 13. Running the project
-
 The project can be executed locally from the repository root.
 
 ### Prerequisites
@@ -830,7 +828,6 @@ recommendations.
 ## 15. Methodology
 
 ### Data source
-
 The project uses the public, Kaggle-hosted **SEER Breast Cancer Data**
 dataset.
 
