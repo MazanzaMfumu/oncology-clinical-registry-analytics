@@ -1151,7 +1151,7 @@ Doudou Mazanza Mfumu
 
 Public-health and data-analytics professional with multidisciplinary
 training in epidemiology, biostatistics, population studies and
-reproducible health-data workflows.
+reproducible health-data workflows..
 
 This repository was developed as a professional portfolio project to
 demonstrate applied competencies in:

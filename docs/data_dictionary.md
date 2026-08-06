@@ -107,7 +107,7 @@ The complete rule specifications are available in:
 ## 7. Source limitations
 
 The variable definitions in this document describe how the fields are
-processed and used by this portfolio project.
+processed and used by this portfolio project..
 
 They do not replace an official SEER data dictionary or an institutional
 oncology-registry specification.

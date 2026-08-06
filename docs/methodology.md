@@ -4,7 +4,7 @@
 
 The project uses the public SEER Breast Cancer Data dataset documented
 in `data_source_register.md`. The original row-level CSV is processed
-locally and is not distributed through this repository.
+locally and is not distributed through this repository..
 
 ## Data preparation
 

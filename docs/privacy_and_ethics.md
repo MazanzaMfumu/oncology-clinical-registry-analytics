@@ -7,7 +7,7 @@ SQLite database are not distributed through this GitHub repository.
 
 The project does not contain direct hospital patient identifiers.
 `case_id` is a technical identifier generated for the reproducible
-workflow and is not a medical-record identifier.
+workflow and is not a medical-record identifier..
 
 Publicly distributed reports and dashboard screenshots contain
 aggregated indicators only.
