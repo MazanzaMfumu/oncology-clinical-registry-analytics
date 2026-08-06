@@ -88,7 +88,7 @@ data/raw         Original local data, never modified
 data/interim     Prepared and quality-control files
 data/processed   Validated analytical data and SQLite database
 docs             Data source, quality, methodology and ethics
-notebooks        Profiling and clinical analyses
+notebooks        clinical analyses
 src              Reusable Python pipeline
 sql              Database schema and analytical queries
 app              Local Streamlit dashboard
@@ -117,22 +117,28 @@ workflow.
 
 3. **Programmatic data profiling — implemented**
 
-   The preparation and validation scripts examine:
+   Data profiling is performed programmatically as part of the
+   preparation and validation pipeline.
 
-   - the source dimensions and column names;
-   - duplicated column names;
-   - entirely empty and unnamed columns;
-   - expected and unexpected variables;
-   - numeric conversion issues;
-   - missing required values;
-   - duplicated records;
-   - categorical domains;
-   - numerical ranges;
-   - consistency between related variables.
+   The implemented controls examine:
 
-   The current profiling controls are implemented programmatically in
+   * source dimensions and column names;
+   * duplicated column names;
+   * entirely empty and unnamed columns;
+   * expected and unexpected variables;
+   * numeric conversion issues;
+   * missing required values;
+   * duplicated records;
+   * categorical domains;
+   * numerical ranges;
+   * consistency between related variables.
+
+   These controls are implemented in
    [`src/prepare_data.py`](src/prepare_data.py) and
    [`src/validate_data.py`](src/validate_data.py).
+
+   This programmatic approach ensures that the same profiling checks are
+   applied consistently whenever the data pipeline is executed.
 
 4. **Preparation layer — implemented**
 
