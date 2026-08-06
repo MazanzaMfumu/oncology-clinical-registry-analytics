@@ -6,7 +6,7 @@
    number of observations = 4022
 number of events observed = 616
    partial log-likelihood = -4156.3913
-         time fit was run = 2026-08-05 11:52:08 UTC
+         time fit was run = 2026-08-06 00:31:49 UTC
 
 ---
                                                 coef exp(coef)  se(coef)  coef lower 95%  coef upper 95% exp(coef) lower 95% exp(coef) upper 95%

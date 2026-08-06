@@ -97,73 +97,122 @@ outputs          Figures and aggregated reports
 
 ## 6. Data pipeline
 
-The project follows a layered data-management workflow:
+The project follows a layered and reproducible data-management
+workflow.
 
-1. **Source documentation**  
-   The dataset, version, license and provenance limitations are
-   documented before processing.
+1. **Source documentation — implemented**
 
-2. **Raw data layer**  
-   The original CSV is stored locally in `data/raw` and is never
-   modified manually.
+   The dataset name, version, license, provenance and known source
+   limitations are documented before processing.
 
-3. **Data profiling**  
-   The initial notebook examines dimensions, column names, data types,
-   missing values, duplicates and categorical modalities.
+   Detailed source information is available in
+   [`docs/data_source_register.md`](docs/data_source_register.md).
 
-4. **Preparation layer — planned**  
-   Python will standardize column names, numeric formats and selected
-   categorical values.
+2. **Raw data layer — implemented locally**
 
-5. **Validation layer — planned**  
-   Documented quality rules will identify technical anomalies without
-   silently deleting records.
+   The original row-level CSV is stored locally in `data/raw/`.
 
-6. **Processed data layer — planned**  
-   The validated dataset will include a technical quality status for
-   each record.
+   The source file is read by the project code but is never modified
+   or redistributed through this GitHub repository.
 
-7. **Relational and analytical layers — planned**  
-   Validated data will be loaded into SQLite and used for SQL
-   indicators, clinical analyses and reporting.
+3. **Programmatic data profiling — implemented**
 
-8. **Presentation layer — planned**  
-   Aggregated results will be presented through Streamlit, Excel and
-   documented figures.
+   The preparation and validation scripts examine:
+
+   - the source dimensions and column names;
+   - duplicated column names;
+   - entirely empty and unnamed columns;
+   - expected and unexpected variables;
+   - numeric conversion issues;
+   - missing required values;
+   - duplicated records;
+   - categorical domains;
+   - numerical ranges;
+   - consistency between related variables.
+
+   The current profiling controls are implemented programmatically in
+   [`src/prepare_data.py`](src/prepare_data.py) and
+   [`src/validate_data.py`](src/validate_data.py).
+
+4. **Preparation layer — implemented**
+
+   [`src/prepare_data.py`](src/prepare_data.py) performs reproducible
+   preparation of the source data.
+
+   The implemented transformations include:
+
+   - conversion of column names to `snake_case`;
+   - removal of the entirely empty unnamed source column with
+     traceability;
+   - harmonisation of selected source variable names;
+   - validation of the expected source schema;
+   - conversion of numerical variables;
+   - trimming of categorical values;
+   - creation of a technical `case_id`;
+   - creation of the survival-event indicator;
+   - calculation of the lymph-node ratio;
+   - addition of source-file and processing-timestamp metadata.
+
+   The prepared dataset is written locally to:
+
+   ```text
+   data/interim/oncology_registry_prepared.csv
 
 ## 7. Data quality controls
 
-The project applies technical controls across five dimensions:
+The project applies reproducible technical data-quality controls across
+five dimensions:
 
-- **completeness** — required values and expected columns;
-- **uniqueness** — duplicated records or identifiers;
-- **validity** — accepted formats, categories and numeric ranges;
-- **consistency** — compatibility between related variables;
-- **traceability** — documentation of sources and transformations.
+- **completeness** — presence of required columns and mandatory values;
+- **uniqueness** — identification of exact duplicate records;
+- **validity** — verification of accepted categories and numerical
+  ranges;
+- **consistency** — verification of compatibility between related
+  variables;
+- **traceability** — recording of detected issues, affected records,
+  severity levels and processing outputs.
 
-Examples of planned controls include:
+### Implemented controls
 
-- age must not be missing and must remain within a plausible range;
-- tumour size and survival duration must not be negative;
-- the number of positive regional nodes cannot exceed the number of
+The current validation pipeline verifies that:
+
+- all required analytical columns are present;
+- mandatory values are available for age, T stage, N stage, overall
+  stage, survival duration and vital status;
+- exact duplicate records are identified after excluding technical
+  metadata;
+- age remains within the accepted technical range of 0 to 120 years;
+- tumour size is not negative;
+- the number of examined regional nodes is not negative;
+- the number of positive regional nodes is not negative;
+- the number of positive regional nodes does not exceed the number of
   examined nodes;
-- vital status must be coded as `Alive` or `Dead`;
-- `Alive` must correspond to `event = 0`;
-- `Dead` must correspond to `event = 1`;
-- accepted T-stage values must be documented;
-- accepted N-stage values must be documented;
-- hormone-receptor categories must be checked.
+- survival duration is not negative;
+- vital status is coded as `Alive` or `Dead`;
+- `Alive` corresponds to `event = 0`;
+- `Dead` corresponds to `event = 1`;
+- T-stage values belong to `T1`, `T2`, `T3` or `T4`;
+- N-stage values belong to `N1`, `N2` or `N3`;
+- estrogen-receptor status is coded as `Positive` or `Negative`;
+- progesterone-receptor status is coded as `Positive` or `Negative`.
 
-Missing clinical values are not automatically replaced during the
-preparation stage. No observation is silently deleted solely because
-it violates a technical quality rule.
+Each detected issue is recorded with:
 
-Complete rules are documented in
-[`docs/data_quality_rules.md`](docs/data_quality_rules.md).
+- the technical `case_id`;
+- the violated rule;
+- the affected field;
+- the severity level;
+- a readable issue description.
+
+The validation pipeline produces:
+
+```text
+data/interim/data_quality_issues.csv
+data/processed/oncology_registry_validated.csv
+outputs/reports/data_quality_summary.md
+```
 
 ## 8. Relational database and SQL indicators
-
-**Status: implemented**
 
 The validated analytical dataset is loaded into a local SQLite
 database.
@@ -201,8 +250,6 @@ The generated SQLite database is stored locally in
 through GitHub.
 
 ## 9. Clinical and survival analyses
-
-**Status: implemented and quality-checked**
 
 The clinical and survival analysis component uses the validated
 processed dataset:
@@ -287,8 +334,6 @@ Generated survival-analysis outputs are stored in:
 
 ## 10. Streamlit dashboard
 
-**Status: implemented locally**
-
 A functional Streamlit dashboard is available in
 `app/streamlit_app.py`.
 
@@ -340,8 +385,6 @@ appropriately aggregated and non-identifying information.
 ![Dashboard quality and receptor indicators](docs/screenshots/dashboard_full_page2.png)
 
 ## 11. Automated reporting
-
-**Status: implemented**
 
 The project generates reproducible reporting outputs automatically with
 Python. These outputs include a formatted multi-worksheet Excel workbook,
@@ -424,8 +467,6 @@ The reporting component is intended to demonstrate:
 
 ## 12. Automated tests
 
-**Status: implemented and passing locally and on GitHub Actions**
-
 Automated tests verify that the main data-preparation and validation
 rules continue to behave as expected after code modifications.
 
@@ -444,11 +485,346 @@ tests/test_data_quality.py
 ```
 ## 13. Running the project
 
+## 13. Running the project
+
+The project can be executed locally from the repository root.
+
+### Prerequisites
+
+The local workflow requires:
+
+* Python 3.14;
+* Git;
+* the project dependencies listed in `requirements.txt`;
+* one copy of the source CSV stored locally in `data/raw/`.
+
+The original row-level dataset is not distributed through this GitHub
+repository.
+
+### Create and activate the Python environment
+
+From the project root, create a virtual environment:
+
+```powershell
+python -m venv .venv
+```
+
+Activate it in Windows PowerShell:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Upgrade `pip` and install the project dependencies:
+
+```powershell
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+### Add the source dataset
+
+Download the source CSV separately and place it directly inside:
+
+```text
+data/raw/
+```
+
+Only one CSV file must be stored directly in this directory when the
+pipeline is executed.
+
+The source file is read locally and is never modified by the project
+code.
+
+### Run the core data-management pipeline
+
+Execute the principal data-management workflow with:
+
+```powershell
+python run_pipeline.py
+```
+
+The command runs the following steps in order:
+
+1. data preparation;
+2. data-quality validation;
+3. SQLite database construction;
+4. aggregated Excel report generation.
+
+The principal locally generated files include:
+
+```text
+data/interim/oncology_registry_prepared.csv
+data/interim/data_quality_issues.csv
+data/processed/oncology_registry_validated.csv
+data/processed/oncology_registry.sqlite
+outputs/reports/data_quality_summary.md
+outputs/reports/oncology_registry_report.xlsx
+```
+
+Individual-level CSV files and the SQLite database are excluded from
+GitHub and remain available locally only.
+
+### Run the survival-analysis workflow
+
+After the validated dataset has been generated, run:
+
+```powershell
+python src/analysis/survival_extensions.py
+```
+
+This workflow generates:
+
+* sample-flow and exclusion reports;
+* event and censoring summaries;
+* Kaplan-Meier estimates;
+* at-risk tables;
+* global and pairwise log-rank tests;
+* primary and stratified Cox model outputs;
+* proportional-hazards diagnostics;
+* Schoenfeld-residual figures;
+* a reproducibility manifest;
+* an automated readiness checklist.
+
+The generated survival outputs are stored in:
+
+```text
+outputs/reports/survival/
+outputs/figures/survival/
+```
+The Kaplan-Meier figures, at-risk tables and Schoenfeld-residual plots
+must also be reviewed visually before their substantive interpretation
+is finalized.
+
+### Check the SQLite database
+
+The generated relational database can be checked with:
+
+```powershell
+python -m src.check_database
+```
+
+The database is created locally at:
+
+```text
+data/processed/oncology_registry.sqlite
+```
+
+It contains the following analytical tables:
+
+```text
+patients
+tumors
+outcomes
+data_quality_issues
+```
+
+### Run the automated tests
+
+Execute the local test suite with:
+
+```powershell
+python -m pytest -v
+```
+
+The current tests verify selected preparation and data-quality rules,
+including:
+
+* column-name normalization;
+* acceptance of a technically valid record;
+* detection of negative survival durations;
+* detection of positive regional nodes exceeding examined nodes;
+* consistency between vital status and event coding.
+
+The same test suite is executed automatically through GitHub Actions
+after pushes and pull requests to the `main` branch.
+
+These tests validate selected project rules. They do not constitute a
+complete automated validation of every analytical, database, reporting
+and dashboard output.
+
+### Run the Streamlit dashboard
+
+Launch the dashboard from the project root with:
+
+```powershell
+python -m streamlit run app/streamlit_app.py
+```
+
+The application is then available locally at:
+
+```text
+http://localhost:8501
+```
+
+When the local SQLite database is available, the dashboard uses the
+database generated by the pipeline.
+
+When the database is unavailable, the application automatically uses a
+fully synthetic demonstration dataset.
+
+To force the synthetic demonstration mode in Windows PowerShell, run:
+
+```powershell
+$env:USE_SYNTHETIC_DEMO="1"
+python -m streamlit run app/streamlit_app.py
+```
+
+The synthetic mode contains no real patient observations and must not be
+interpreted as an official clinical or epidemiological result.
+
+### Reproducibility boundary
+
+The source dataset must be downloaded separately because the original
+row-level CSV is not redistributed through this repository.
+
+A complete local reproduction therefore requires:
+
+1. installation of the documented dependencies;
+2. placement of the source CSV in `data/raw/`;
+3. execution of the core pipeline;
+4. execution of the survival-analysis workflow;
+5. verification of the automated tests;
+6. manual review of the principal analytical figures.
+
+This project is an educational portfolio demonstration. It is not an
+operational hospital registry, an official Cancer Registry submission
+system or a clinical decision-support tool.
 
 ## 14. Main results
 
+**Current status: analytical outputs have been generated. Final manual
+review of the survival figures and proportional-hazards diagnostic plots
+remains required before release `v1.0.0`.**
+
+The results reported below were generated from the locally processed and
+validated analytical dataset.
+
+They do not originate from the fully synthetic fallback dataset used by
+the public Streamlit demonstration when the local SQLite database is not
+available.
+
+### Data quality results
+
+The data pipeline processed 4,024 source records.
+
+| Indicator                            | Result |
+| ------------------------------------ | -----: |
+| Source records processed             |  4,024 |
+| Records classified as `valid`        |  4,022 |
+| Records classified as `needs_review` |      2 |
+| Total quality issues detected        |      2 |
+| Error-level issues                   |      0 |
+| Warning-level issues                 |      2 |
+
+Both warnings were generated by the `DQ_DUPLICATE_ROW` rule.
+
+A `needs_review` status identifies a record requiring technical review.
+It does not automatically mean that the clinical information is
+incorrect.
+
+No record was silently deleted by the validation pipeline.
+
+The aggregated quality report is available in:
+
+[`outputs/reports/data_quality_summary.md`](outputs/reports/data_quality_summary.md)
+
+### Survival-analysis population
+
+The survival analysis retained only records classified as `valid`.
+
+| Indicator                                 |     Result |
+| ----------------------------------------- | ---------: |
+| Source records                            |      4,024 |
+| Records excluded by the quality filter    |          2 |
+| Records included in the survival analysis |      4,022 |
+| Recorded death events                     |        616 |
+| Right-censored records                    |      3,406 |
+| Minimum recorded follow-up                |    1 month |
+| Maximum recorded follow-up                | 107 months |
+
+### Observed results by recorded stage
+
+| Recorded stage | Records | Recorded death events | Observed event proportion |
+| -------------- | ------: | --------------------: | ------------------------: |
+| IIA            |   1,303 |                    96 |                      7.4% |
+| IIB            |   1,130 |                   135 |                     11.9% |
+| IIIA           |   1,050 |                   184 |                     17.5% |
+| IIIB           |      67 |                    20 |                     29.9% |
+| IIIC           |     472 |                   181 |                     38.3% |
+
+The observed event proportion increased across the recorded stage groups
+in this dataset. This is a descriptive result and must not be interpreted
+as an individual prognosis or as evidence of a causal effect.
+
+### Comparison of observed survival distributions
+
+The global log-rank test comparing the recorded stage groups produced:
+
+| Test                    |  Result |
+| ----------------------- | ------: |
+| Number of stage groups  |       5 |
+| Log-rank test statistic |  309.76 |
+| P-value                 | < 0.001 |
+
+The test indicates that the observed survival distributions were not
+identical across the recorded stage groups in this analytical dataset.
+
+This statistical association does not establish causality. Differences
+between groups may also reflect age, tumour characteristics, lymph-node
+involvement, biological markers, treatment-related factors and other
+measured or unmeasured characteristics.
+
+### Reproducible analytical outputs
+
+The project currently generates:
+
+* an aggregated data-quality report;
+* a validated analytical dataset stored locally;
+* a relational SQLite database stored locally;
+* documented SQL indicators;
+* overall and stage-specific Kaplan-Meier curves;
+* censoring marks and at-risk tables;
+* global and pairwise log-rank tests;
+* primary and stratified Cox model outputs;
+* proportional-hazards diagnostic outputs;
+* Schoenfeld-residual diagnostic figures;
+* a multi-worksheet aggregated Excel report;
+* a local Streamlit dashboard;
+* automated unit-test results.
+
+The main aggregated outputs are available in:
+
+* [`outputs/reports/`](outputs/reports/);
+* [`outputs/reports/survival/`](outputs/reports/survival/);
+* [`outputs/figures/`](outputs/figures/);
+* [`outputs/figures/survival/`](outputs/figures/survival/).
+
+The stakeholder-facing Excel workbook is available at:
+
+[`outputs/reports/oncology_registry_report.xlsx`](outputs/reports/oncology_registry_report.xlsx)
+
+### Validation boundary
+
+The current automated tests verify selected data-preparation and
+data-quality rules. They do not yet constitute a complete end-to-end
+automated validation of the database, Excel report, dashboard and
+survival-analysis outputs.
+
+Cox-model estimates and proportional-hazards diagnostics have been
+generated and archived. Their detailed substantive interpretation is
+intentionally deferred until the Kaplan-Meier figures, at-risk tables
+and Schoenfeld-residual plots have completed final manual review.
+
+The numerical results reported here describe this processed portfolio
+dataset only. They must not be interpreted as official SEER statistics,
+population-level estimates, individual predictions or clinical
+recommendations.
+
 ## 15. Methodological limitations
 
+
 ## 16. Privacy and ethical considerations
+
 
 ## 17. Author
