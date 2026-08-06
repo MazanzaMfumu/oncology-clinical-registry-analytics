@@ -821,8 +821,123 @@ dataset only. They must not be interpreted as official SEER statistics,
 population-level estimates, individual predictions or clinical
 recommendations.
 
-## 15. Methodological limitations
+## 15. Methodology
 
+### Data source
+
+The project uses the public, Kaggle-hosted **SEER Breast Cancer Data**
+dataset.
+
+Dataset provenance, version, license and known limitations are documented
+in [`data_source_register.md`](data_source_register.md).
+
+The original row-level CSV is retained unchanged in the local
+`data/raw/` layer. It is processed locally and is not distributed through
+this repository.
+
+### Data preparation
+
+The Python preparation step verifies the expected source schema,
+standardizes variable names, converts numerical fields and cleans
+categorical values.
+
+It removes only the entirely empty unnamed source column, creates a
+technical `case_id`, derives the survival-event indicator and calculates
+the lymph-node ratio.
+
+The source filename and processing timestamp are retained for
+traceability. Missing or non-convertible clinical values are not
+automatically imputed.
+
+### Data quality and issue management
+
+Documented, rule-based controls assess:
+
+* completeness;
+* uniqueness;
+* validity;
+* consistency;
+* traceability.
+
+Each detected issue is recorded with its `case_id`, validation rule,
+affected field, severity and explanatory message.
+
+Records are classified as either `valid` or `needs_review`. A
+`needs_review` status identifies a case requiring technical verification;
+it does not automatically mean that the clinical information is
+incorrect.
+
+No source record is silently deleted because of a technical quality
+issue.
+
+### Relational database
+
+The technically validated data are loaded into a reproducible local
+SQLite database.
+
+The relational model separates the main data domains into:
+
+* `patients`;
+* `tumors`;
+* `outcomes`;
+* `data_quality_issues`.
+
+These tables are linked through the technical `case_id`. The database is
+rebuilt from the documented SQL schema and is not distributed through
+GitHub.
+
+### Analysis
+
+The project produces descriptive clinical indicators, Kaplan-Meier
+estimates, log-rank comparisons and Cox proportional-hazards model
+outputs.
+
+Only records classified as `valid` are included in the main survival
+analysis.
+
+These analyses describe the processed portfolio dataset. They do not
+provide individual prognoses or establish causal clinical effects.
+
+### Reporting and reproducibility
+
+The project generates aggregated outputs through:
+
+* documented SQL queries;
+* a multi-worksheet Excel report;
+* analytical CSV files;
+* figures and technical diagnostics;
+* a Streamlit dashboard.
+
+The main preparation, validation, database and Excel-reporting steps can
+be regenerated through the project pipeline. Selected preparation and
+data-quality rules are tested automatically with `pytest` and GitHub
+Actions.
+
+The local dashboard uses the generated SQLite database. When the local
+database is unavailable, the public demonstration uses entirely synthetic
+data and does not expose individual-level source records.
+
+### Limitations
+
+This is an educational portfolio project based on a public dataset. It
+does not reproduce the complete operational workflow of a hospital
+clinical registry.
+
+In particular, it does not include:
+
+* extraction from a hospital electronic medical record;
+* data collection from multidisciplinary oncology meetings;
+* formal medical validation;
+* formal ICD or TNM clinical-coding workflows;
+* HD4DP transmission;
+* submission to the Belgian Cancer Registry.
+
+Although T-stage and N-stage fields are used and technically checked,
+these controls must not be interpreted as formal clinical-coding
+validation.
+
+The project is not intended for clinical decision-making, official
+registry reporting or individual patient prediction.
 
 ## 16. Privacy and ethical considerations
 
