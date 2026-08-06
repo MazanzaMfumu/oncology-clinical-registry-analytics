@@ -1,10 +1,10 @@
 setting,value
 script_version,2026-08-05-commit-candidate-v1
-run_timestamp_utc,2026-08-06T00:32:46.828691+00:00
+run_timestamp_utc,2026-08-06T16:30:45.759269+00:00
 script_file,src/analysis/survival_extensions.py
 script_sha256,f3475b0b1c2e05e0fde58883ce7e212cbeff2f8fae8201e74662feb93b6df10b
 data_file,data/processed/oncology_registry_validated.csv
-data_sha256,174c9e744e240409e7ba386cb662e84d0a3534a15652381726b101d19b5de773
+data_sha256,a540dd91c8ce5409e4b81365b3300308f8abaa3fcf4970c8678ea8c6e31342bb
 quality_filter,quality_status == 'valid'
 duration_column,survival_months
 event_column,event
